@@ -47,9 +47,9 @@ public class MovieController
 			            // You many decide to return HttpStatus.NOT_FOUND
 			        }
 		        }
-		        catch(RuntimeException e) 
+		        catch(Exception e) 
 				 { 
-					logger.error("RunTimeException is thrown... ");
+					logger.error("RunTimeException is thrown... ",e);
 					throw new RuntimeException(e);
 				 }
 		        
@@ -70,13 +70,13 @@ public class MovieController
 				  if (movie == null)
 				  {
 					  logger.error("Movie with id {} not found.", movieId);
-					  return new ResponseEntity(new CustomErrorType("Unable to find Movie with id: " 
-					                            +  movieId + " ,does not exist."),HttpStatus.NOT_FOUND);
+					  return new ResponseEntity(new CustomErrorType("404","Unable to find Movie with id: " 
+					                            +  movieId + ", does not exist."),HttpStatus.NOT_FOUND);
 				  }
 			   }
-			   catch(RuntimeException e) 
+			   catch(Exception e) 
 			   { 
-				 logger.error("RunTimeException is thrown... ");
+				 logger.error("RunTimeException is thrown... ",e);
 				 throw new RuntimeException(e);
 			   }
 		
@@ -94,13 +94,13 @@ public class MovieController
 	    		 if (movieRepository.existsMovieBymCode(movie.getmCode() )) 
 		    	 {
 		             logger.error("Unable to create Movie with code {} , already exists!", movie.getmCode());
-		             return new ResponseEntity(new CustomErrorType("Unable to create Movie with code " 
-		                                       +  movie.getmCode() + " already exist."),HttpStatus.CONFLICT);
+		             return new ResponseEntity(new CustomErrorType("409","Unable to create Movie with code " 
+		                                       +  movie.getmCode() + ", already exist."),HttpStatus.CONFLICT);
 		         }
 	    	  }
-	    	  catch(RuntimeException e)
+	    	  catch(Exception e)
 	    	  {
-	    		 logger.error("RunTimeException is thrown... ");
+	    		 logger.error("RunTimeException is thrown... ",e);
 				 throw new RuntimeException(e);
 	    	  }
 	         
@@ -125,7 +125,7 @@ public class MovieController
 		    		 if (movie == null)
 					 {
 						 logger.error("Movie with id {} not found.", movieId);
-						 return new ResponseEntity(new CustomErrorType("Unable to find Movie with id: " +  movieId + " ,does not exist."),HttpStatus.NOT_FOUND);
+						 return new ResponseEntity(new CustomErrorType("404","Unable to find Movie with id: " +  movieId + ", does not exist."),HttpStatus.NOT_FOUND);
 					 }
 	
 		    		 movie.setmName(movieRequest.getmName());
